@@ -15,7 +15,7 @@ function auth($pseudo, $password_typed)
 	// Si pas de résultat, l'utilisateur n'existe pas donc l'authentification échoue
 	if (!$res)
 	{
-		die('Utilisateur n\'existe pas');
+		die('Utilisateur incorrect');
 	} else {
 		// Récupération du mot de passe en base de donnée pour comparaison avec ce qui a été saisi par l'utilisateur
 		$password_db = $res[0]['password'];
@@ -24,7 +24,7 @@ function auth($pseudo, $password_typed)
 		if ($password_typed == $password_db) {
 			return $res[0]['id'];
 		} else {
-			die('Mauvais mot de passe');
+			die('mot de passe');
 			return false;
 		}
 	}
