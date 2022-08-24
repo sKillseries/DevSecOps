@@ -148,23 +148,16 @@ function get_all_users()
 // SELECT --> Liée à l'affichage des informations utilisateur (Séléction par ID)
 function get_user_by_id($id)
 {
-	$servername = "localhost";
-	$username = "webappadmin";
-	$passdb = "webapppa$$";
-	$dbname = "webapp";
 
-	$conn = new mysqli($servername, $username, $passdb, $dbname);
-	if ($conn->connect_error) {
-	  die("Connection failed: " . $conn->connect_error);
-	}
+	$conn = new pdo("mysql:host=localhost;dbname=webapp","webappadmin","webapppa$$");
+	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+	$stmt = $conn->prepare("SELECT * FROM users WHERE id = :id");
+	$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+	$stmt->execute();
 	
-	$id = "'".$id."'";
-	
-	$sql = "SELECT * FROM users WHERE id= ".$id;
-	
-	$result = $conn->query($sql);
-	$result = $result->fetch_assoc();
-	$conn->close();
+	$result = $stmt->fetchAll();
+	$result = $result[0];
 	return $result;
 }
 
